@@ -3,9 +3,9 @@ package com.nero.mybatis.relation.domain.pojo;
 import java.util.Date;
 
 /**
- * 用户POJO类-以字段的形式关联身份证信息
+ * 用户POJO类-以'字段'的形式关联'身份证信息'
  */
-public class User2 {
+public class UserIdcard2 {
     private long id; // 主键
     private String name;
     private String sex;

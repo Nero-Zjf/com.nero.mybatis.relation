@@ -1,13 +1,16 @@
 package com.nero.mybatis.relation.mapper;
 
-import com.nero.mybatis.relation.domain.po.UserPO;
-import com.nero.mybatis.relation.domain.pojo.User;
-import com.nero.mybatis.relation.domain.pojo.User2;
+import com.nero.mybatis.relation.domain.pojo.UserIdcard;
+import com.nero.mybatis.relation.domain.pojo.UserIdcard2;
+import com.nero.mybatis.relation.domain.pojo.UserOrder;
 
 import java.util.List;
 
 public interface UserMapper {
-    List<User> getAllUser();
-    List<User> getAllUser2();
-    List<User2> getAllUser3();
+    List<UserIdcard> getAllUserWithIdcard();
+    List<UserIdcard> getAllUserWithIdcard2();
+    List<UserIdcard2> getAllUserWithIdcard3();
+
+    List<UserOrder> getAllUserWithOrder();
+    List<UserOrder> getAllUserWithOrder2();
 }

@@ -1,8 +1,7 @@
 package com.nero.mybatis.relation;
 
-import com.nero.mybatis.relation.domain.po.UserPO;
-import com.nero.mybatis.relation.domain.pojo.User;
-import com.nero.mybatis.relation.domain.pojo.User2;
+import com.nero.mybatis.relation.domain.pojo.UserIdcard;
+import com.nero.mybatis.relation.domain.pojo.UserIdcard2;
 import com.nero.mybatis.relation.mapper.UserMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -13,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class Main {
+public class OneToOneTest {
     public static void main(String[] args) throws IOException {
         try {
             //-------------------------使用 XML 构建 SqlSessionFactory-------------------------
@@ -25,7 +24,6 @@ public class Main {
                     .build(config);
             //--------------------------------------------------------
 
-
             // 通过 SqlSessionFactory 创建 SqlSession
             SqlSession ss = ssf.openSession();
 
@@ -33,20 +31,20 @@ public class Main {
             UserMapper userMapper = ss.getMapper(UserMapper.class);
 
             // 一对一关联 查询所有用户-方式一
-            List<User> userList = userMapper.getAllUser();
-            for (User user : userList) {
-                System.out.println(user);
+            List<UserIdcard> userIdcardList = userMapper.getAllUserWithIdcard();
+            for (UserIdcard userIdcard : userIdcardList) {
+                System.out.println(userIdcard);
             }
 
             // 一对一关联 查询所有用户-方式二
-            List<User> userList2 = userMapper.getAllUser2();
-            for (User user : userList2) {
-                System.out.println(user);
+            List<UserIdcard> userIdcardList2 = userMapper.getAllUserWithIdcard2();
+            for (UserIdcard userIdcard : userIdcardList2) {
+                System.out.println(userIdcard);
             }
 
             // 一对一关联 查询所有用户-方式三
-            List<User2> userList3 = userMapper.getAllUser3();
-            for (User2 user : userList3) {
+            List<UserIdcard2> userList3 = userMapper.getAllUserWithIdcard3();
+            for (UserIdcard2 user : userList3) {
                 System.out.println(user);
             }
 

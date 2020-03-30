@@ -1,15 +1,17 @@
 package com.nero.mybatis.relation.domain.pojo;
 
-import com.nero.mybatis.relation.domain.po.IdcardPO;
+import com.nero.mybatis.relation.domain.po.OrderPO;
+
+import java.util.List;
 
 /**
- * 用户POJO类-以对象引用的形式关联身份证信息
+ * 用户POJO类-以'对象引用'的形式关联'订单信息'
  */
-public class User {
+public class UserOrder {
     private long id; // 主键
     private String name;
     private String sex;
-    private IdcardPO idcard;
+    private List<OrderPO> orders;
 
     public long getId() {
         return id;
@@ -35,12 +37,12 @@ public class User {
         this.sex = sex;
     }
 
-    public IdcardPO getIdcard() {
-        return idcard;
+    public List<OrderPO> getOrders() {
+        return orders;
     }
 
-    public void setIdcard(IdcardPO idcard) {
-        this.idcard = idcard;
+    public void setOrders(List<OrderPO> orders) {
+        this.orders = orders;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class User {
                 "\"id\":" + id +
                 ", \"name\":\"" + name + '\"' +
                 ", \"sex\":\"" + sex + '\"' +
-                ", \"idcard\":" + idcard +
+                ", \"orders\":" + orders +
                 '}';
     }
 }

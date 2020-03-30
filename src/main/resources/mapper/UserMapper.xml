@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nero.mybatis.relation.mapper.UserMapper">
-    <!-- 一对一查询所有用户信息：级联查询的第一种方法（嵌套查询，执行两个SQL语句）-->
-    <resultMap id="userMap" type="com.nero.mybatis.relation.domain.pojo.User">
+    <!-- 一对一查询所有用户（包含身份证信息）：级联查询的第一种方法（嵌套查询，执行两个SQL语句）-->
+    <resultMap id="userIdcardMap" type="com.nero.mybatis.relation.domain.pojo.UserIdcard">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="sex" column="sex"/>
@@ -12,13 +12,13 @@
         <association property="idcard" column="id" javaType="com.nero.mybatis.relation.domain.po.IdcardPO"
                      select="com.nero.mybatis.relation.mapper.IdcardMapper.getIdcardById"/>
     </resultMap>
-    <!-- 查询所有用户信息 -->
-    <select id="getAllUser" resultMap="userMap">
+    <!-- 查询所有用户（包含身份证信息） -->
+    <select id="getAllUserWithIdcard" resultMap="userIdcardMap">
         select * from user
     </select>
 
-    <!--一对一查询所有用户信息：级联查询的第二种方法（嵌套结果，执行一个SQL语句）-->
-    <resultMap id="userMap2" type="com.nero.mybatis.relation.domain.pojo.User">
+    <!--一对一查询所有用户（包含身份证信息）：级联查询的第二种方法（嵌套结果，执行一个SQL语句）-->
+    <resultMap id="userIdcardMap2" type="com.nero.mybatis.relation.domain.pojo.UserIdcard">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="sex" column="sex"/>
@@ -29,19 +29,50 @@
             <result property="date" column="date"/>
         </association>
     </resultMap>
-    <!-- 查询所有用户信息 -->
-    <select id="getAllUser2" resultMap="userMap2">
+    <!-- 查询所有用户（包含身份证信息） -->
+    <select id="getAllUserWithIdcard2" resultMap="userIdcardMap2">
         select *
         from user
-        inner join id_card
-        where user.id = id_card.user_id
+        inner join id_card on user.id = id_card.user_id
     </select>
 
-    <!-- 一对一查询所有用户信息：连接查询（使用POJO存储结果）-->
-    <select id="getAllUser3" resultType="com.nero.mybatis.relation.domain.pojo.User2">
+    <!-- 一对一查询所有用户（包含身份证信息）：级联查询的第三种方法（连接查询 使用POJO存储结果）-->
+    <select id="getAllUserWithIdcard3" resultType="com.nero.mybatis.relation.domain.pojo.UserIdcard2">
         select user.*,ic.card_num as cardNum,ic.date
         from user
-        inner join id_card as ic
-        where user.id = ic.user_id
+        inner join id_card as ic on user.id = ic.user_id
+    </select>
+
+    <!-- 一对多查询所有用户（包含订单信息）：级联查询的第一种方法（嵌套查询，执行两个SQL语句）-->
+    <resultMap id="userOrderMap" type="com.nero.mybatis.relation.domain.pojo.UserOrder">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <!-- 一对多级联查询-->
+        <collection property="orders" column="id" ofType="com.nero.mybatis.relation.domain.po.OrderPO"
+                    select="com.nero.mybatis.relation.mapper.OrderMapper.getOrderListByUserId"/>
+    </resultMap>
+    <!-- 查询所有用户（包含订单信息） -->
+    <select id="getAllUserWithOrder" resultMap="userOrderMap">
+        select * from user
+    </select>
+
+    <!--一对多查询所有用户（包含订单信息）：级联查询的第二种方法（嵌套结果，执行一个SQL语句）-->
+    <resultMap id="userOrderMap2" type="com.nero.mybatis.relation.domain.pojo.UserOrder">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <!-- 一对多级联查询-->
+        <collection property="orders" ofType="com.nero.mybatis.relation.domain.po.OrderPO">
+            <id property="id" column="order_id"/>
+            <result property="orderNum" column="order_num"/>
+            <result property="userId" column="user_id"/>
+        </collection>
+    </resultMap>
+    <!-- 查询所有用户（包含订单信息） -->
+    <select id="getAllUserWithOrder2" resultMap="userOrderMap2">
+        select u.*,o.id as order_id,o.order_num,o.user_id
+        from `user` as u
+        inner join `order` as o on u.id = o.user_id
     </select>
 </mapper>
